@@ -578,7 +578,7 @@ export default function NanduBirthdayGreeting() {
                 className="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"
               />
               <motion.div
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 0 }} //THIS U=IFJF
                 whileHover={{ opacity: 1 }}
                 className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4"
               >
