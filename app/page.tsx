@@ -69,19 +69,22 @@ export default function NanduBirthdayGreeting() {
 
   // Preload images
   useEffect(() => {
+    console.log("Starting to preload images from /images/ directory")
     let loadedCount = 0
     const imagePromises = []
 
     for (let i = 1; i <= totalImages; i++) {
       const promise = new Promise<void>((resolve) => {
         const img = new Image()
+        img.crossOrigin = "anonymous"
         img.src = `/images/${i}.jpg`
         img.onload = () => {
           loadedCount++
           setLoadingProgress(Math.floor((loadedCount / totalImages) * 100))
           resolve()
         }
-        img.onerror = () => {
+        img.onerror = (e) => {
+          console.error(`Failed to load image ${i}.jpg:`, e)
           loadedCount++
           setLoadingProgress(Math.floor((loadedCount / totalImages) * 100))
           resolve() // Resolve even on error to continue loading
@@ -341,7 +344,6 @@ export default function NanduBirthdayGreeting() {
           </motion.div>
 
           {/* Birthday Countdown */}
-          
 
           {/* Animated Hearts Row */}
           <motion.div
@@ -516,6 +518,10 @@ export default function NanduBirthdayGreeting() {
                 src={`/images/${currentPhotoIndex + 1}.jpg`}
                 alt={`Nandu featured photo ${currentPhotoIndex + 1}`}
                 className="w-full h-[70vh] object-cover card-3d-content"
+                onError={(e) => {
+                  console.error(`Failed to load featured image ${currentPhotoIndex + 1}.jpg`)
+                  e.currentTarget.src = "/placeholder.svg?height=400&width=600"
+                }}
               />
               <motion.div
                 className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8 md:p-12"
@@ -576,6 +582,10 @@ export default function NanduBirthdayGreeting() {
                 src={`/images/${i + 1}.jpg`}
                 alt={`Nandu photo ${i + 1}`}
                 className="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-110"
+                onError={(e) => {
+                  console.error(`Failed to load grid image ${i + 1}.jpg`)
+                  e.currentTarget.src = "/placeholder.svg?height=300&width=300"
+                }}
               />
               <motion.div
                 initial={{ opacity: 0 }} //THIS U=IFJF
@@ -791,6 +801,10 @@ export default function NanduBirthdayGreeting() {
                 src={`/images/${currentPhotoIndex + 1}.jpg`}
                 alt={`Nandu fullscreen photo ${currentPhotoIndex + 1}`}
                 className="w-full h-full object-contain rounded-lg shadow-2xl"
+                onError={(e) => {
+                  console.error(`Failed to load fullscreen image ${currentPhotoIndex + 1}.jpg`)
+                  e.currentTarget.src = "/placeholder.svg?height=600&width=800"
+                }}
               />
               <motion.button
                 whileHover={{ scale: 1.1, backgroundColor: "rgba(255, 255, 255, 0.3)" }}
